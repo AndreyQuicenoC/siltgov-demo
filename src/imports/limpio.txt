@@ -1,0 +1,365 @@
+Aquí tienes el prompt reorganizado, estructurado y clarificado, manteniendo su esencia pero con lógica de implementación y sin ambigüedades:
+
+---
+
+## 🧩 CAMBIOS GENERALES (UI / UX)
+
+### 1. Terminología visible
+
+* Cambiar **“Dashboard” → “Inicio”** en toda la interfaz visible (no en nombres de archivos).
+* Aplicar donde tenga sentido semántico dentro de la navegación.
+
+---
+
+### 2. Tooltips y ayudas contextuales
+
+Para los roles:
+
+* Administrador
+* Superusuario
+* Liquidador
+* Pagador
+
+**Requerimiento:**
+
+* Agregar **tooltips en todos los campos relevantes**, incluyendo:
+
+  * Inputs
+  * Selects
+  * Botones (especialmente filtros junto al buscador)
+* Objetivo: que el usuario entienda cada acción sin ambigüedad.
+
+---
+
+### 3. Popovers informativos en creación de sentencia (Admin)
+
+Agregar icono **“?” (estético y visible)** junto a:
+
+#### a. Adjuntar Fallo (PDF)
+
+Popover:
+
+* Indicar que debe ser un documento legal oficial
+* Mencionar elementos esperados (ej: juzgado, partes, fecha, decisión)
+
+#### b. Asignar Liquidador / Asignar Pagador
+
+Popover:
+
+* Indicar que si no aparece:
+
+  * puede estar inactivo
+  * eliminado
+* Solo se muestran usuarios activos
+
+**Requisitos:**
+
+* Popover claro, breve, bien posicionado
+* Asociado directamente al icono
+
+---
+
+## 🔄 ESTADOS DE SENTENCIA (CORRECCIÓN DE MODELO)
+
+Reemplazar estados actuales por:
+
+* `Creada`
+
+  * Sentencia creada pero **no asignada completamente**
+* `En proceso`
+
+  * Ya tiene liquidador y pagador asignados
+* `Terminada`
+
+  * Liquidación realizada
+* `Pagada`
+
+  * Pago ejecutado y soportado
+* `Corrección de liquidador`
+* `Corrección de pagador`
+
+**Reglas:**
+
+* Correcciones regresan a su actor correspondiente
+* Al corregir:
+
+  * vuelve a `Terminada` o `Pagada` según corresponda
+
+**Importante:**
+
+* Estos estados deben estar:
+
+  * en tabla
+  * en filtros
+
+---
+
+## 🏢 SUPERUSUARIO - OFICINAS
+
+### Cambios:
+
+* Separar:
+
+  * **Entidad**
+  * **Departamento**
+
+### Acciones:
+
+* Agregar botón **vista previa (icono ojo)**
+
+### Vista previa:
+
+* Mostrar overlay
+* Solo botones:
+
+  * Editar
+  * Cerrar
+
+---
+
+## 📱 OVERLAY SOLO EN MOBILE
+
+### Condiciones:
+
+* Solo aparece:
+
+  * en dispositivos móviles
+  * después del login
+* No reaparece al navegar
+
+### Contenido:
+
+* Explicar que:
+
+  * el sistema es responsive
+  * pero no recomendado para operaciones críticas
+* Incluir link explicativo sobre “responsive”
+
+### Acción:
+
+* Botón cerrar
+
+---
+
+## ⚖️ MÓDULO LIQUIDADOR (SEPARACIÓN DE VISTAS)
+
+### Problema:
+
+Hay campos que no existen hasta calcular (valor base, instancia, etc.)
+
+### Solución:
+
+#### 1. Página: **Sentencias pendientes**
+
+* Datos solo del administrador:
+
+  * N° Sentencia
+  * Fecha fallo
+  * Juzgado
+  * Demandante
+  * Documento
+  * Observaciones
+* Estado visible: `En proceso`
+* Acción: Liquidar
+
+---
+
+#### 2. Página: **Sentencias terminadas / Mis liquidaciones**
+
+* Solo sentencias ya liquidadas o en corrección
+* Datos completos:
+
+  * Valor base
+  * Instancia
+  * Resultado
+* Estados:
+
+  * `Terminada`
+  * `Corrección de liquidador`
+
+---
+
+### UI:
+
+* Ambas páginas en navbar
+* Tabla con:
+
+  * buscador
+  * filtros
+  * paginación
+* Botones:
+
+  * vista previa (icono)
+  * editar (icono)
+* Tooltips obligatorios
+
+---
+
+## 💰 MÓDULO PAGADOR (MISMA LÓGICA)
+
+### 1. Página: **Sentencias pendientes (pagador)**
+
+* Datos:
+
+  * N° Sentencia
+  * Demandante
+  * Entidad (debajo del nombre)
+  * Valor base / instancia / valor liquidado
+* Estado: `Pendiente`
+* Acción: **Registrar pago**
+
+---
+
+### 2. Página: **Sentencias pagadas**
+
+* Datos completos de pago
+* Acciones:
+
+  * ver
+  * editar soportes
+
+---
+
+## 💳 REGISTRO DE PAGO (NUEVA PÁGINA)
+
+Eliminar overlay actual.
+
+### Nueva página completa:
+
+#### Opciones:
+
+1. Subir reporte
+2. Pagar liquidación
+
+---
+
+### Si paga liquidación:
+
+Flujo:
+
+1. Selección de método:
+
+   * PSE
+   * PayU
+   * Visa, etc.
+2. Digitación
+3. Procesamiento
+4. Confirmación
+5. Estado → `Pagada`
+
+---
+
+## 🔁 CORRECCIÓN DE PAGOS (MODELO)
+
+No permitir “volver a pagar” como corrección directa.
+
+### Modelo:
+
+#### Pago (base)
+
+* id
+* sentencia_id
+* monto
+* método
+* fecha
+* estado
+* id_transacción
+
+#### AjustePago
+
+* id
+* pago_id
+* tipo:
+
+  * Corrección
+  * Reverso parcial
+  * Complemento
+* monto (+/-)
+* motivo
+* soportes
+* fecha
+* usuario
+
+---
+
+### Casos:
+
+* Pagó de más:
+
+  * soporte de devolución
+* Pagó de menos:
+
+  * pago complementario (puede usar pasarela)
+
+---
+
+## ❗ IMPORTANTE (TRANSVERSAL)
+
+### 1. Iconos “?”
+
+Agregar en:
+
+* subida de archivos
+* campos complejos
+
+---
+
+### 2. Accesibilidad
+
+Aplicar:
+
+* consistencia visual
+* claridad semántica
+* navegación usable
+* contraste adecuado
+* feedback de acciones
+
+---
+
+### 3. SEO
+
+Revisar:
+
+* Home
+* About
+* FAQ
+
+Optimizar:
+
+* estructura
+* contenido
+* semántica
+
+---
+
+## 🧠 CRITERIOS DE IMPLEMENTACIÓN
+
+* Mantener coherencia con modelo de negocio
+* Pensar en escalabilidad
+* Evitar:
+
+  * lógica ambigua
+  * campos innecesarios
+  * sobrecarga visual
+* Priorizar:
+
+  * claridad
+  * trazabilidad
+  * seguridad
+
+---
+
+## 🔐 SEGURIDAD
+
+* Validar inputs (frontend + backend)
+* Control de roles estricto
+* Evitar exposición de datos sensibles
+* Prevenir:
+
+  * duplicidad de pagos
+  * manipulación de estados
+  * cargas inseguras de archivos
+
+---
+
+Este prompt ya está listo para ejecución técnica sin ambigüedades y alineado con un sistema escalable y auditable.

@@ -1,0 +1,37 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build
+dist/
+build/
+*.local
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# IDE / OS
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# Logs
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+npm-log.txt
+
+# Test / coverage
+coverage/
+.nyc_output/
+
+# AI framework (local only — not published)
+.ai/
+
+# Vite
+vite.config.ts.timestamp-*
