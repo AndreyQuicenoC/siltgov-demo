@@ -21,7 +21,10 @@ npm run preview
 
 ## GitHub Pages
 
-El workflow `.github/workflows/ci.yml` publica automáticamente en cada push a `main` con `BASE_PATH=/siltgov-demo/`.
+1. En GitHub: **Settings → Pages → Build and deployment → GitHub Actions**.
+2. El workflow `.github/workflows/deploy-pages.yml` publica en cada push a `main` (o manualmente) con `BASE_PATH=/siltgov-demo/`.
+
+El workflow `.github/workflows/ci.yml` valida calidad (lint, a11y, tests, build) y debe permanecer en verde.
 
 URL esperada: `https://andreyquicenoc.github.io/siltgov-demo/`
 
