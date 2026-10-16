@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/AndreyQuicenoC/siltgov-demo/actions/workflows/ci.yml/badge.svg)](https://github.com/AndreyQuicenoC/siltgov-demo/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-1.0.0-0347A6)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.0.1-0347A6)](CHANGELOG.md)
 [![WCAG oriented](https://img.shields.io/badge/WCAG-2.1%20AA%20oriented-green)](docs/implementation-report.md)
 
 Demostración **frontend** del **Sistema Integrado de Liquidaciones Transparente del Gobierno Colombiano (SILTGOV)** — plataforma orientada a la gestión de sentencias judiciales, liquidación de intereses, pagos y trazabilidad en entidades públicas.

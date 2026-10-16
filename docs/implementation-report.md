@@ -38,7 +38,7 @@
 
 ### Validación V2
 
-- **Estado:** PASSED (lint + test + build en CI)
+- **Estado:** PASSED (lint + test + build en CI — run #4 `conclusion: success` en GitHub Actions)
 
 ### Validación (Integrador)
 
