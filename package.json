@@ -1,7 +1,7 @@
 {
   "name": "siltgov-demo",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Demostración frontend profesional de SILTGOV — liquidaciones judiciales transparentes (Colombia)",
   "author": "Andrey Quiceno C. <https://github.com/AndreyQuicenoC>",
   "license": "MIT",
